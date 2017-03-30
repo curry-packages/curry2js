@@ -1,0 +1,16 @@
+{
+    "name": "curry2js",
+    "version": "0.2.0",
+    "author": "Michael Hanus <mh@informatik.uni-kiel.de>",
+    "synopsis": "A compiler for Curry into JavaScript programs used in WUIs.",
+    "category": [ "Web" ],
+    "dependencies": {  },
+    "executable": {
+        "name": "curry2js",
+        "main": "Curry2JS"
+    },
+     "source": {
+        "git": "https://git.ps.informatik.uni-kiel.de/curry-packages/curry2js.git",
+        "tag": "$version"
+    }
+}
