@@ -5,6 +5,7 @@
     "synopsis": "A compiler for Curry into JavaScript programs used in WUIs.",
     "category": [ "Web" ],
     "dependencies": {  },
+    "configModule": "C2JSPackageConfig",
     "executable": {
         "name": "curry2js",
         "main": "Curry2JS"

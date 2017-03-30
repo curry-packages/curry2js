@@ -5,23 +5,29 @@
 --- @version January 16, 2007
 ------------------------------------------------------------------------------
 
-import Distribution      (installDir)
-import JavaScript
-import List
+module Curry2JS (main) where
+
+import Char              (isAlphaNum)
+import Directory         (doesFileExist, getModificationTime)
 import FlatCurry.Types
 import FlatCurry.Files
 import FlatCurry.Compact
-import FlatCurry.Show
+import FilePath          ((</>))
 import Integer
-import System            (system, getArgs)
-import Directory
-import Char              (isAlphaNum)
-import Unsafe
+import JavaScript
+import List
 import Maybe
 import ReadNumeric       (readNat)
+import System            (system, getArgs)
+
+import C2JSPackageConfig (packagePath)
 
 ------------------------------------------------------------------------------
 -- General definitions:
+
+-- Directory for js includes:
+jsIncludeDir :: String
+jsIncludeDir = packagePath </> "include"
 
 -- Should higher-order calls (i.e., "apply") be implemented as an explicit
 -- apply function? Otherwise, they are implemented as anonymous functions.
@@ -812,8 +818,8 @@ generateJavaScript mainmodname imports mainfuns target = do
             (concatMap showJSFDecl (flatprog2JS prog) ++
              "var LazyStringConversion = " ++
                  (if lazyStringConversion then "true" else "false") ++ ";\n\n")
-  readFile (installDir++"/include/curry2js_prims.js") >>= appendFile target
-  readFile (installDir++"/include/wui_prims.js") >>= appendFile target
+  readFile (jsIncludeDir </> "curry2js_prims.js") >>= appendFile target
+  readFile (jsIncludeDir </> "wui_prims.js"     ) >>= appendFile target
   putStrLn $ "JavaScript program written into \""++target++"\""
   system $ "chmod 644 "++target
   done
