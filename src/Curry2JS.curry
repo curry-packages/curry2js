@@ -449,7 +449,7 @@ pafsOfExpr (Free _ exp) = pafsOfExpr exp
 pafsOfExpr (Or exp1 exp2) = union (pafsOfExpr exp1) (pafsOfExpr exp2)
 pafsOfExpr (Typed exp _) = pafsOfExpr exp
 
-mapUnion :: [[a]] -> [a]
+mapUnion :: Eq a => [[a]] -> [a]
 mapUnion = foldr union []
 
 ------------------------------------------------------------------------------
@@ -671,7 +671,7 @@ uniqueDefsOfExps defs [] = defs
 uniqueDefsOfExps defs (exp:exps) =
   uniqueDefsOfExps (uniqueDefsOfExp defs exp) exps
 
-updateAssoc :: a -> b -> [(a,b)] -> [(a,b)]
+updateAssoc :: Eq a => a -> b -> [(a,b)] -> [(a,b)]
 updateAssoc _ _ [] = error "updateAssoc on []"
 updateAssoc r newval ((i,val):assocs) =
   if r==i then (i,newval) : assocs
