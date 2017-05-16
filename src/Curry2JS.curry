@@ -14,11 +14,13 @@ import FlatCurry.Files
 import FlatCurry.Compact
 import FilePath          ((</>))
 import Integer
-import JavaScript
 import List
 import Maybe
 import ReadNumeric       (readNat)
 import System            (system, getArgs)
+
+import JavaScript.Types
+import JavaScript.Show   (showJSFDecl)
 
 import C2JSPackageConfig (packagePath)
 
