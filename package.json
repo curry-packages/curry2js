@@ -4,7 +4,9 @@
     "author": "Michael Hanus <mh@informatik.uni-kiel.de>",
     "synopsis": "A compiler for Curry into JavaScript programs used in WUIs.",
     "category": [ "Web" ],
-    "dependencies": {  },
+    "dependencies": {
+        "javascript": ">= 1.0.0"
+    },
     "compilerCompatibility": {
         "pakcs": ">= 2.0.0",
         "kics2": ">= 2.0.0"
