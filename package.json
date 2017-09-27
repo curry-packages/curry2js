@@ -5,6 +5,7 @@
     "synopsis": "A compiler for Curry into JavaScript programs used in WUIs.",
     "category": [ "Web" ],
     "dependencies": {
+        "flatcurry" : ">= 0.0.1",
         "javascript": ">= 1.0.0"
     },
     "compilerCompatibility": {
