@@ -53,6 +53,7 @@ persons = [("Bob","Carter","bob@carter.com",(3,10,1965))
 --
 -- > cpm update && cpm installbin curry2js
 --
--- Then compile and install this script into your home www directory:
+-- Then compile and install this script into your home www directory
+-- (note that this requires package `html` and `wui` which must be installed):
 --
 -- > curry makecgi -cpm -wuijs -o ~/public_html/persons.cgi Persons
