@@ -15,7 +15,7 @@
 
 module Persons where
 
-import HTML
+import HTML.Base
 import WUIjs
 import Time(validDate)
 
@@ -55,4 +55,4 @@ persons = [("Bob","Carter","bob@carter.com",(3,10,1965))
 --
 -- Then compile and install this script into your home www directory:
 --
--- > curry makecgi -wuijs -o ~/public_html/persons.cgi Persons
+-- > curry makecgi -cpm -wuijs -o ~/public_html/persons.cgi Persons
