@@ -7,18 +7,18 @@
 
 module Curry2JS (main) where
 
-import Char              (isAlphaNum)
-import Directory         (doesFileExist, getModificationTime)
+import Data.Char          (isAlphaNum)
+import Data.List
+import Data.Maybe
+import System.Process     (system)
+import System.Environment (getArgs)
+import System.Directory   (doesFileExist, getModificationTime)
+import System.FilePath    ((</>))
+import Numeric            (readNat)
+
 import FlatCurry.Types
 import FlatCurry.Files
 import FlatCurry.Compact
-import FilePath          ((</>))
-import Integer
-import List
-import Maybe
-import ReadNumeric       (readNat)
-import System            (system, getArgs)
-
 import JavaScript.Types
 import JavaScript.Show   (showJSFDecl)
 
@@ -98,7 +98,7 @@ flat2JS tdecls (Func fname _ _ _ (Rule args rhs)) =
                      flatExp2JS tdecls retvar unknown [] retvar rhs ++
                      [JSReturn (JSIVar retvar)]))
  where
-  retvar = maxlist (maxVarIndexInExp rhs : args) + 1
+  retvar = maximum (maxVarIndexInExp rhs : args) + 1
 
 
 -- Translate a FlatCurry expression into JavaScript:
@@ -407,7 +407,7 @@ freeVarsInBranch (Branch (LPattern _) e) = freeVarsInExp e
 -- get maximum variable index occurring in an expression:
 maxVarIndexInExp :: Expr -> Int
 maxVarIndexInExp exp = let allvars = allVarsInExp exp in
-  if null allvars then 0 else maxlist allvars
+  if null allvars then 0 else maximum allvars
  where
   allVarsInExp (Var v) = [v]
   allVarsInExp (Lit _) = []
@@ -418,7 +418,7 @@ maxVarIndexInExp exp = let allvars = allVarsInExp exp in
   allVarsInExp (Free vs e) = vs ++ allVarsInExp e
   allVarsInExp (Case _ e bs) = allVarsInExp e ++ concatMap allVarsInBranch bs
   allVarsInExp (Typed e _) = allVarsInExp e
-  
+
   allVarsInBranch (Branch (Pattern _ vs) e) = vs ++ allVarsInExp e
   allVarsInBranch (Branch (LPattern _) e) = allVarsInExp e
 
@@ -507,12 +507,12 @@ jscOfExpr (Typed exp _) = jscOfExpr exp
 --   Comb FuncCall ("Prelude","apply")
 --     [Comb FuncCall ("WUI","wCons3") [],
 --      Comb (ConsPartCall 3) ("mod","Date") []]
---   
+--
 --   by
---   
+--
 --   Comb FuncCall ("Prelude","apply")
 --     [Comb (FuncPartCall 4) ("WUI","wCons3JS")
---           [(Comb ConsCall ("Prelude","Just") 
+--           [(Comb ConsCall ("Prelude","Just")
 --                  [Comb (FuncPartCall 1) ("JavaScript","jsConsTerm")
 --                        [<"mod_Date" FlatCurry string]])],
 --      Comb (ConsPartCall 3) ("mod","Date") []]
@@ -535,7 +535,7 @@ replaceJscOfExpr (Comb ct (m,f) args)
    = Comb ct (m,"withConditionJSName")
              [replaceJscOfExpr (head args),
               Comb ConsCall (prelude,"(,)") (replaceCurryFunc (args!!1))]
-  | ct==FuncCall && m==prelude && f=="apply" && 
+  | ct==FuncCall && m==prelude && f=="apply" &&
     isWCons (args!!0) && isDataCons (args!!1)
    = let arity = wConsArity (args!!0)
       in Comb ct (m,f)
@@ -553,7 +553,7 @@ replaceJscOfExpr (Comb ct (m,f) args)
     _ -> False
 
   wConsArity e = case e of
-    Comb _ (_,fname) [] -> fst (fromJust (readNat (drop 5 fname)))
+    Comb _ (_,fname) [] -> fst (head (readNat (drop 5 fname)))
     _ -> error "replaceJscOfExpr.wConsArity"
 
   isDataCons exp = case exp of

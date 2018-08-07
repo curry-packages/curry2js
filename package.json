@@ -1,12 +1,12 @@
 {
     "name": "curry2js",
-    "version": "2.0.0",
+    "version": "3.0.0",
     "author": "Michael Hanus <mh@informatik.uni-kiel.de>",
     "synopsis": "A compiler for Curry into JavaScript programs used in WUIs.",
     "category": [ "Web" ],
     "dependencies": {
-        "flatcurry" : ">= 2.0.0",
-        "javascript": ">= 2.0.0"
+        "flatcurry" : ">= 3.0.0",
+        "javascript": ">= 3.0.0"
     },
     "compilerCompatibility": {
         "pakcs": ">= 2.0.0",
