@@ -18,7 +18,7 @@
         "main": "Curry2JS"
     },
      "source": {
-        "git": "https://git.ps.informatik.uni-kiel.de/curry-packages/curry2js.git",
+        "git": "https://github.com/curry-packages/curry2js.git",
         "tag": "$version"
     }
 }
